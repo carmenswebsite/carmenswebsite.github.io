@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Abel'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <style>
   html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   .text-color-carmen {color:#e66256}
@@ -15,138 +17,502 @@
 
 <body class="w3-light-grey">
 
-<div class="w3-content w3-margin-top" style="max-width:1400px;">
+<div id="vmain">
+  <div class="w3-content w3-margin-top" style="max-width:1400px;">
 
-  <div class="w3-row-padding">
+    <div class="w3-row-padding">
 
-    <div class="w3-third">
+      <div class="w3-third">
 
-      <div class="w3-white w3-text-grey w3-card-4">
-        <div class="w3-display-container">
-          <img src="images/happybirthday.jpg" style="width:100%" alt="Avatar">
-          <div class="w3-display-bottomleft w3-container w3-text-white">
-            <h2>Wish you the best !</h2>
+        <div class="w3-white w3-text-grey w3-card-4">
+          <div class="w3-display-container">
+            <img src="images/happybirthday.jpg" style="width:100%" alt="Avatar">
+            <div class="w3-display-bottomleft w3-container w3-text-white">
+              <h2>Wish you the best !</h2>
+            </div>
+          </div>
+          <div class="w3-container w3-margin-bottom">
+
+            <p class="w3-large"><b><i class="fa fa-search fa-fw w3-margin-right text-color-carmen"></i>Carmen's progress</b></p>
+            <div class="w3-light-grey w3-round-xlarge">
+              <div class="w3-round-xlarge color-carmen" v-bind:style="{height:'24px', width:`${level*100/(max_levels)}%`}"></div>
+            </div>
+
+            <hr>
+
+            <p class="w3-large w3-text-theme"><b><i class="fa fa-microphone fa-fw w3-margin-right text-color-carmen"></i>Roman's logs</b></p>
+
+            <div v-for="n in level - 1">
+              <center v-if="n > 1"><div style="width:50%"><hr></div></center>
+              <p>
+                <span>Log {{ n }}</span>
+                <span style="float:right">({{ hours[n-1] }})</span>
+              </p>
+              <p>
+                <audio controls v-bind:src="`audio/log${n}.mp3`" style="width:100%">
+                  Your browser does not support the <code>audio</code> element.
+                </audio>
+              </p>
+            </div>
+
           </div>
         </div>
-        <div class="w3-container">
+        <div class="w3-container w3-card color-carmen w3-margin-bottom">
+          <h2 class="w3-text-white w3-padding-16"><i class="fa fa-comment fa-fw w3-margin-right w3-xxlarge w3-text-white"></i>Roman's Kakao ID:</h2>
+          <center>
+            <span v-if="level > 0" class="w3-tag w3-white w3-round" style="width: 50px"><h2>R</h2></span>
+            <span v-if="level > 1" class="w3-tag w3-white w3-round" style="width: 50px"><h2>o</h2></span>
+            <span v-if="level > 2" class="w3-tag w3-white w3-round" style="width: 50px"><h2>m</h2></span>
+            <span v-if="level > 3" class="w3-tag w3-white w3-round" style="width: 50px"><h2>i</h2></span>
+            <span v-if="level > 4" class="w3-tag w3-white w3-round" style="width: 50px"><h2>n</h2></span>
+            <span v-if="level > 5" class="w3-tag w3-white w3-round" style="width: 50px"><h2>g</h2></span>
+            <span v-if="level > 6" class="w3-tag w3-white w3-round" style="width: 50px"><h2>o</h2></span>
+            <span v-for="n in max_levels - level" class="w3-tag w3-white w3-round" style="width: 50px; margin-right: 4px"><h2>.</h2></span>
+          </center>
+          <br>
+          <center v-if="level > max_levels">
+            <h3>Well done I guess</h3><br>
+          </center>
+        </div>
 
-          <p class="w3-large"><b><i class="fa fa-search fa-fw w3-margin-right text-color-carmen"></i>Carmen's progress</b></p>
-          <div class="w3-light-grey w3-round-xlarge">
-            <div class="w3-round-xlarge color-carmen" style="height:24px; width:0%"></div>
-          </div>
+        <div class="w3-container w3-card w3-margin-bottom" v-if="level === max_levels">
+          <br><img src="images/kss.jpg" style="width: 100%; height: 100%"><br><br>
+        </div>
 
-          <hr>
+      </div>
 
-          <p class="w3-large w3-text-theme"><b><i class="fa fa-microphone fa-fw w3-margin-right text-color-carmen"></i>Roman's logs</b></p>
-          <p class="unlocked-1">Log 1</p>
-          <p>
-            <audio class="unlocked-1" controls src="audio/log1.mp3" style="width:100%">
-              Your browser does not support the <code>audio</code> element.
-            </audio>
-          </p>
-          <p class="unlocked-2">Log 2</p>
-          <p>
-            <audio class="unlocked-2" controls src="audio/log2.mp3" style="width:100%">
-              Your browser does not support the <code>audio</code> element.
-            </audio>
-          </p>
-          <p class="unlocked-3">Log 3</p>
-          <p>
-            <audio class="unlocked-3" controls src="audio/log3.mp3" style="width:100%">
-              Your browser does not support the <code>audio</code> element.
-            </audio>
-          </p>
+
+      <div class="w3-twothird">
+        <div class="w3-container w3-card w3-white w3-margin-bottom">
+          <center><h1 class="w3-text-grey w3-padding-16">Happy birthday !</h1></center>
+          <p>This (hand made) website is optimised for chrome and with a render for computers</p>
+          <p>So please, don't run this website with a phone or a tablet screen size</p>
+          <p>Last tip : Be careful, this website has no auto-save ^^</p>
+          <br>
+          <center><h3 class="w3-text-grey">Oh ! And it's a test !!!!</h3><h3> You're birthday's full of enigmas ^^'</h3></center>
           <br>
         </div>
-      </div><br>
 
-    </div>
 
-    <div class="w3-twothird">
+        <div class="w3-container w3-card w3-white w3-margin-bottom" v-if="level >= 1">
+          <h2 class="w3-text-grey w3-padding-16"><span class="w3-tag color-carmen w3-round">1</span>&nbsp;&nbsp;Let's be sure it's you, Carmen !</h2>
+          <div class="w3-container">
+            <h5 class="w3-opacity"><b>What languages do you speak ?</b></h5>
+            <div class="w3-row-padding">
+              <div class="w3-col s3" v-for="n in 4">
+                <p><center>The {{ level1_title[n - 1] }} one</center></p>
+                <select class="w3-input w3-border revert-color-carmen" v-model="level1_selected[n - 1]">
+                  <option value=""> - </option>
+                  <option v-for="item in shuffleArray(level1_list)" v-bind:value="item">{{item}}</option>
+                </select>
+              </div>
+            </div>
+            <br>
+            <p>Hint : The first what ? Maybe the numbers are useful eheh ?</p>
+          </div>
+        </div>
 
-      <div class="w3-container w3-card w3-white w3-margin-bottom">
-        <h2 class="w3-text-grey w3-padding-16"><span class="w3-tag color-carmen w3-round">1</span>&nbsp;&nbsp;Let's be sure it's you, Carmen !</h2>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>What languages do you speak ?</b></h5>
-          <div class="w3-row-padding">
-            <div class="w3-col s3">
-              <p><center>First one</center></p>
-              <select class="w3-input w3-border revert-color-carmen">
-                <option value="test">hello</option>
-                <option value="test2">hello2</option>
-              </select>
+
+        <div class="w3-container w3-card w3-white w3-margin-bottom" v-if="level >= 2">
+          <h2 class="w3-text-grey w3-padding-16"><span class="w3-tag color-carmen w3-round">2</span>&nbsp;&nbsp;I need a translation</h2>
+          <div class="w3-container">
+            <h5 class="w3-opacity"><b>What the German word for... ?</b></h5>
+            <h6 class="text-color-carmen">&nbsp;<i class="fa fa-chevron-right fa-fw w3-margin-right"></i>"Lifelong Treasure of Destiny"</h6>
+            <p><input class="w3-input w3-padding-16" placeholder="We learn it in kindergarden" v-model="level3_input"></p>
+          </div>
+        </div>
+
+
+        <div class="w3-container w3-card w3-white w3-margin-bottom" v-if="level >= 3">
+          <h2 class="w3-text-grey w3-padding-16"><span class="w3-tag color-carmen w3-round">3</span>&nbsp;&nbsp;Basic cook instructions</h2>
+          <div class="w3-container">
+            <h5 class="w3-opacity"><b>No hint. No clue. That should be easy.</b></h5>
+            <div class="w3-row-padding">
+              <div class="w3-col s3">
+                <p><center>First rule</center></p>
+                <select class="w3-input w3-border revert-color-carmen" style="height: 46px" v-model="level2_rules.first">
+                  <option value=""> - </option>
+                  <option value="n3">Watch the milk boil</option>
+                  <option value="n4">Taking crisps while boiling</option>
+                  <option value="n2">Follow well the recipe</option>
+                  <option value="cooking">Cooking time's important</option>
+                  <option value="n1">Eat while cooking</option>
+                  <option value="n7">Dancing while mixing</option>
+                  <option value="n6">Stop cooking</option>
+                </select>
+              </div>
+              <div class="w3-col s3">
+                <p><center>Second rule</center></p>
+                <select class="w3-input w3-border revert-color-carmen" style="height: 46px" v-model="level2_rules.second">
+                  <option value=""> - </option>
+                  <option value="salt">A bit of salt</option>
+                  <option value="no1">A bit of pepper</option>
+                  <option value="no2">A bit of paper</option>
+                  <option value="no3">A bit of mustard</option>
+                  <option value="no4">A bit of bacon</option>
+                  <option value="no5">A bit of meat</option>
+                  <option value="no6">A bit of baguette</option>
+                </select>
+              </div>
+              <div class="w3-col s3">
+                <p><center>Third rule</center></p>
+                <select class="w3-input w3-border revert-color-carmen" style="height: 46px" v-model="level2_rules.third">
+                  <option value=""> - </option>
+                  <option value="nono1">A bit of milk</option>
+                  <option value="nono2">A bit of sugar</option>
+                  <option value="nono3">A bit of crisps</option>
+                  <option value="nono4">A bit of salad</option>
+                  <option value="butter">A bit of butter</option>
+                  <option value="nono5">A bit of oil</option>
+                  <option value="nono6">A bit of marple</option>
+                </select>
+              </div>
+              <div class="w3-col s3">
+                <p>&nbsp;</p>
+                <button class="w3-button color-carmen w3-padding-large w3-hover-dark-gray" @click="level2ValidateBtn">And... it's done !</button>
+              </div>
             </div>
-            <div class="w3-col s3">
-              <p><center>Second one</center></p>
-              <select class="w3-input w3-border revert-color-carmen" id="">
-                <option value="test">hello</option>
-                <option value="test2">hello2</option>
-              </select>
+            <br>
+            <p v-if="level > 2">That was my first letter indeed... Well done !</p>
+          </div>
+        </div>
+
+
+        <div class="w3-container w3-card w3-white w3-margin-bottom" v-if="level >= 4">
+          <h2 class="w3-text-grey w3-padding-16"><span class="w3-tag color-carmen w3-round">4</span>&nbsp;&nbsp;Relationships</h2>
+          <div class="w3-container">
+            <div class="w3-row-padding">
+              <div class="w3-col s6">
+                <h5 class="w3-opacity"><b>Roman: {{level4_dialogs[level4_index].rom}}</b></h5><br><br>
+                <center>
+                  <p>Carmen:</p>
+                  <button class="w3-button color-carmen w3-padding-large w3-hover-dark-gray" style="width:330px" @click="level4ValidateBtn">{{level4_dialogs[level4_index].car}}</button>
+                </center>
+              </div>
+              <div class="w3-col s6">
+                <center><img src="images/bear_waiting.gif"></center>
+              </div>
             </div>
-            <div class="w3-col s3">
-              <p><center>Third one</center></p>
-              <select class="w3-input w3-border revert-color-carmen">
-                <option value="test">hello</option>
-                <option value="test2">hello2</option>
-              </select>
+            <br>
+          </div>
+        </div>
+
+
+        <div class="w3-container w3-card w3-white w3-margin-bottom" v-if="level >= 5">
+          <h2 class="w3-text-grey w3-padding-16"><span class="w3-tag color-carmen w3-round">5</span>&nbsp;&nbsp;Your birthday</h2>
+          <div class="w3-container">
+            <div class="w3-row-padding">
+              <div class="w3-col s6">
+                <center><h5 class="w3-opacity"><b>Carmen's birthday</b></h5></center>
+                <div class="w3-row-padding" style="margin-bottom: 15px">
+                  <div class="w3-col s6"><input class="w3-input w3-border" placeholder="Month" style="width:70px; float:right" v-model="level6_car_month"></div>
+                  <div class="w3-col s6"><input class="w3-input w3-border" placeholder="Day" style="width:70px" v-model="level6_car_day"></div>
+                </div>
+                <center>
+                  <button class="w3-button color-carmen w3-padding-large w3-hover-dark-gray" style="width:155px" v-if="level6_car_ok">Happy Birthday !</button>
+                  <button class="w3-button color-carmen w3-padding-large w3-hover-dark-gray" style="width:155px" v-else @click="level6CarBtn">Try this date</button>
+                </center>
+              </div>
+              <div class="w3-col s6">
+                <center><h5 class="w3-opacity"><b>Roman's birthday</b></h5></center>
+                <div class="w3-row-padding" style="margin-bottom: 15px">
+                  <div class="w3-col s6"><input class="w3-input w3-border" placeholder="Month" style="width:70px; float:right" v-model="level6_rom_month"></div>
+                  <div class="w3-col s6"><input class="w3-input w3-border" placeholder="Day" style="width:70px" v-model="level6_rom_day"></div>
+                </div>
+                <center>
+                  <button class="w3-button color-carmen w3-padding-large w3-hover-dark-gray" style="width:155px" v-if="level6_rom_ok">Happy Birthday !</button>
+                  <button class="w3-button color-carmen w3-padding-large w3-hover-dark-gray" style="width:155px" v-else @click="level6RomBtn">Try this date</button>
+                </center>
+              </div>
             </div>
-            <div class="w3-col s3">
-              <p><center>Fourth one</center></p>
-              <select class="w3-input w3-border revert-color-carmen">
-                <option value="test">hello</option>
-                <option value="test2">hello2</option>
-              </select>
+            <br>
+            <p>Some birthday dates change... adjustment had been made according to your timeline.......</p>
+          </div>
+        </div>
+
+
+        <div class="w3-container w3-card w3-white w3-margin-bottom" v-if="level >= 6">
+          <h2 class="w3-text-grey w3-padding-16"><span class="w3-tag color-carmen w3-round">6</span>&nbsp;&nbsp;Numbers, Random and Bibimbap</h2>
+
+          <div class="w3-row-padding" style="margin:0 -16px">
+            <div class="w3-third w3-margin-bottom">
+              <ul class="w3-ul w3-border w3-white w3-center">
+                <li class="w3-dark-gray w3-xlarge w3-padding-32">Numbers</li>
+                <li v-if="!level5_answers.sight" class="w3-light-grey w3-padding-16"><b>{{ level5_waiting.sight }}</b></li>
+                <li v-else class="w3-light-grey w3-padding-16"><i class="fa fa-check"></i></li>
+                <li class="w3-padding-16">How many questions ?</li>
+                <li class="w3-padding-16">
+                  <input class="w3-input w3-border" type="number" min="0" max="10" v-model="level5_number">
+                </li>
+                <li class="w3-light-grey w3-padding-24">
+                  <button class="w3-button color-carmen w3-padding-large w3-hover-dark-gray" @click="level5SightBtn">Test your sight</button>
+                </li>
+              </ul>
+            </div>
+
+            <div class="w3-third w3-margin-bottom">
+              <ul class="w3-ul w3-border w3-white w3-center">
+                <li class="color-carmen w3-xlarge w3-padding-32">Random</li>
+                <li v-if="!level5_answers.luck" class="w3-light-grey w3-padding-16"><b>{{ level5_waiting.luck }}</b></li>
+                <li v-else class="w3-light-grey w3-padding-16"><i class="fa fa-check"></i></li>
+                <li class="w3-padding-16">Try your luck!</li>
+                <li class="w3-padding-16">
+                  <input class="w3-input w3-border" type="text" placeholder="Only 1.31% chance to pass it" disabled>
+                </li>
+                <li class="w3-light-grey w3-padding-24">
+                  <button class="w3-button color-carmen w3-padding-large w3-hover-dark-gray" @click="level5LuckBtn">Test your luck</button>
+                </li>
+              </ul>
+            </div>
+
+            <div class="w3-third">
+              <ul class="w3-ul w3-border w3-white w3-center">
+                <li class="w3-dark-grey w3-xlarge w3-padding-32">Bibimbap</li>
+                <li v-if="!level5_answers.taste" class="w3-light-grey w3-padding-16"><b>{{ level5_waiting.taste }}</b></li>
+                <li v-else class="w3-light-grey w3-padding-16"><i class="fa fa-check"></i></li>
+                <li class="w3-padding-16">What's the best ?</li>
+                <li class="w3-padding-16">
+                  <select class="w3-input w3-border revert-color-carmen" v-model="level5_selected">
+                    <option value=""> - </option>
+                    <option value="samgyetang">삼계탕</option>
+                    <option value="soigogi">쇠고기</option>
+                    <option value="jajangmyeon">자장면</option>
+                    <option value="tteokbokki">떡볶이</option>
+                    <option value="dakgalbi">닭갈비</option>
+                    <option value="bibimbap">비빔밥</option>
+                    <option value="baguette">바게트</option>
+                  </select>
+                </li>
+                <li class="w3-light-grey w3-padding-24">
+                  <button class="w3-button color-carmen w3-padding-large w3-hover-dark-gray" @click="level5TasteBtn">Test your taste</button>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
-        <hr>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>Web Developer / something.com</b></h5>
-          <h6 class="text-color-carmen"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Mar 2012 - Dec 2014</h6>
-          <p>Consectetur adipisicing elit. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
-          <hr>
+
+
+        <div class="w3-container w3-card w3-white w3-margin-bottom" v-if="level === max_levels">
+          <center>
+            <h1 class="w3-text-grey w3-padding-16">Well... well done !</h1>
+            <hr style="width:100px">
+            <h3 class="w3-text-grey w3-padding-16">See you soon I guess</h3>
+          </center>
         </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>Graphic Designer / designsomething.com</b></h5>
-          <h6 class="text-color-carmen"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Jun 2010 - Mar 2012</h6>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p><br>
-        </div>
+
+
+        <!-- End Right Column -->
       </div>
 
-      <div class="w3-container w3-card w3-white">
-        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge text-color-carmen"></i>Education</h2>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>W3Schools.com</b></h5>
-          <h6 class="text-color-carmen"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Forever</h6>
-          <p>Web Development! All I need to know in one place</p>
-          <hr>
-        </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>London Business School</b></h5>
-          <h6 class="text-color-carmen"><i class="fa fa-calendar fa-fw w3-margin-right"></i>2013 - 2015</h6>
-          <p>Master Degree</p>
-          <hr>
-        </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>School of Coding</b></h5>
-          <h6 class="text-color-carmen"><i class="fa fa-calendar fa-fw w3-margin-right"></i>2010 - 2013</h6>
-          <p>Bachelor Degree</p><br>
-        </div>
-      </div>
-
-      <!-- End Right Column -->
+      <!-- End Grid -->
     </div>
 
-    <!-- End Grid -->
+    <!-- End Page Container -->
   </div>
-
-  <!-- End Page Container -->
+  <footer class="w3-container color-carmen w3-center w3-margin-top" v-if="level > 1">
+    <p>Carmen's website</p>
+    <p>Who's birthday's not the 20th .....</p>
+  </footer>
 </div>
+<script>
+  const vueApp = new Vue({
+    el: '#vmain',
+    data: {
+      max_levels: 7,
+      level: 1,
+      hours: [
+              '19th, 08:00pm',
+              '19th, 09:00pm',
+              '19th, 11:00pm',
+              '20th, 1:45am',
+              '22th, 07:00am',
+              '23th, 00:55am'
+      ],
 
-<footer class="w3-container color-carmen w3-center w3-margin-top">
-  <p>The final password:</p>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-</footer>
+      level1_locked: false,
+      level1_title: ['first', 'second', 'third', 'fourth'],
+      level1_list: ['1011 - 0841 - Korean :)', '1014 - 0234 - Cantonese', '1019 - 1233 - English', '1024 - 0836 - Mandarin'],
+      level1_selected: ['', '', '', ''],
 
+      level2_locked: false,
+      level2_rules: {
+        first: '',
+        second: '',
+        third: ''
+      },
+
+      level3_locked: false,
+      level3_input: '',
+
+      level4_locked: false,
+      level4_index: 0,
+      level4_dialogs: {
+        0: {rom: '"Hummmm..."', car: '"We talked much about that"'},
+        1: {rom: '"Yep, you right"', car: '"Maybe we talked too much about that"'},
+        2: {rom: '"But what do you think about..."', car: '"Let\'s skip ?"'},
+        3: {rom: '"Well yeah but..."', car: '"Let\'s skip !"'},
+        4: {rom: '"Well... alright"', car: 'SKIP'},
+        5: {rom: '...', car: '...'}
+      },
+
+      level5_locked: false,
+      level5_number: 0,
+      level5_selected: '',
+      level5_waiting: {
+        sight: '-',
+        luck: '-',
+        taste: '-'
+      },
+      level5_answers: {
+        sight: false,
+        luck: false,
+        taste: false
+      },
+
+      level6_locked: false,
+      level6_rom_month: '',
+      level6_rom_day: '',
+      level6_rom_ok: false,
+      level6_car_month: '',
+      level6_car_day: '',
+      level6_car_ok: false,
+    },
+    watch: {
+      level1_selected: function (val) {
+        if (val[0] !== '1011 - 0841 - Korean :)')
+          return;
+        if (val[1] !== '1014 - 0234 - Cantonese')
+          return;
+        if (val[2] !== '1019 - 1233 - English')
+          return;
+        if (val[3] !== '1024 - 0836 - Mandarin')
+          return;
+        if (!this.level1_locked) {
+          this.level1_locked = true;
+          this.levelUp();
+        }
+      },
+      level3_input: function(val) {
+        if (!this.level3_locked && val === "Lebenslangerschicksalsschatz") {
+          this.level3_locked = true;
+          this.levelUp();
+        }
+      }
+    },
+    methods: {
+      levelUp(){
+        this.level++;
+      },
+
+      shuffleArray(array) {
+        let currentIndex = array.length, temporaryValue, randomIndex;
+        while (0 !== currentIndex) {
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+          temporaryValue = array[currentIndex];
+          array[currentIndex] = array[randomIndex];
+          array[randomIndex] = temporaryValue;
+        }
+        return array;
+      },
+
+      level2ValidateBtn(){
+        if (!this.level2_locked
+                && this.level2_rules.first === 'cooking'
+                && this.level2_rules.second === 'salt'
+                && this.level2_rules.third === 'butter') {
+          this.level2_locked = true
+          this.levelUp()
+        }
+      },
+
+      level4ValidateBtn() {
+        if (!this.level4_locked) {
+          this.level4_index++;
+          if (this.level4_index > 4){
+            this.level4_locked = true;
+            this.levelUp();
+          }
+        }
+      },
+
+      // flemme
+      level5SightBtn() {
+        this.level5_waiting.sight = '.'
+        setTimeout(() => {
+          this.level5_waiting.sight = '..'
+          setTimeout(() => {
+            this.level5_waiting.sight = '...'
+            setTimeout(() => {
+              if (this.level5_number == this.max_levels - 1)
+                this.level5_answers.sight = true
+              else
+                this.level5_waiting.sight = '-'
+              this.level5CheckEnding()
+            }, 1000);
+          }, 1000);
+        }, 1000);
+      },
+      level5LuckBtn() {
+        this.level5_waiting.luck = '.'
+        setTimeout(() => {
+          this.level5_waiting.luck = '..'
+          setTimeout(() => {
+            this.level5_waiting.luck = '...'
+            setTimeout(() => {
+              if (Math.random() > 0.5)
+                this.level5_answers.luck = true
+              else
+                this.level5_waiting.luck = '-'
+              this.level5CheckEnding()
+            }, 1000);
+          }, 1000);
+        }, 1000);
+      },
+      level5TasteBtn(){
+        this.level5_waiting.taste = '.'
+        setTimeout(() => {
+          this.level5_waiting.taste = '..'
+          setTimeout(() => {
+            this.level5_waiting.taste = '...'
+            setTimeout(() => {
+              if (this.level5_selected === 'dakgalbi')
+                this.level5_answers.taste = true
+              else
+                this.level5_waiting.taste = '-'
+              this.level5CheckEnding()
+            }, 1000);
+          }, 1000);
+        }, 1000);
+      },
+      level5CheckEnding() {
+          if (!this.level5_locked
+                  && this.level5_answers.luck === true
+                  && this.level5_answers.sight === true
+                  && this.level5_answers.taste === true) {
+            this.levelUp();
+            this.level5_locked = true
+          }
+      },
+
+      level6RomBtn(){
+        if ((this.level6_rom_month === '9' || this.level6_rom_month === '09') && this.level6_rom_day === '21')
+          this.level6_rom_ok = true;
+        if (!this.level6_locked && this.level6_rom_ok && this.level6_car_ok) {
+          this.level6_locked = true
+          this.levelUp()
+        }
+      },
+      level6CarBtn(){
+        if ((this.level6_car_month === '1' || this.level6_car_month === '01' ) && this.level6_car_day === '31')
+          this.level6_car_ok = true;
+        if (!this.level6_locked && this.level6_rom_ok && this.level6_car_ok) {
+          this.level6_locked = true
+          this.levelUp()
+        }
+      }
+    }
+  })
+</script>
 </body>
 </html>

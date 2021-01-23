@@ -39,13 +39,13 @@
 
         <div class="flex-col-c w-full p-t-50 p-b-80">
             <h3 class="l1-txt1 txt-center p-b-10" id="colorlib_coming_soon_page_heading">
-				COMING SOON
+                <span v-if="passTime > 0">COMING SOON</span>
+                <span v-else>IT'S TIME !</span>
             </h3>
-
             <p class="txt-center l1-txt2 p-b-43 wsize2" id="colorlib_coming_soon_page_content">
-                Please wait a bit
+                <span v-if="passTime > 0">Please wait a bit</span>
+                <span v-else><button @click="letsgo">let's go !<br>(click here)</button></span>
             </p>
-
             <p class="txt-center l1-txt2 p-b-43">
                 <img src="images/tenor.gif">
             </p>
@@ -61,6 +61,8 @@
         const vueApp = new Vue({
             el: '#vapp',
             data: {
+                distance: 0,
+                passTime: 0,
                 timer:"",
                 start: "",
                 end: "",
@@ -83,21 +85,23 @@
                 }, 1000);
             },
             methods: {
+                letsgo() {
+                    document.location.href = 'home.html'
+                },
                 timerCount: function(start,end){
                     // Get todays date and time
                     var now = new Date().getTime();
 
                     // Find the distance between now an the count down date
-                    var distance = start - now;
-                    var passTime =  end - now;
+                    this.distance = start - now;
+                    this.passTime =  end - now;
 
-                    if(distance < 0 && passTime < 0){
-                        clearInterval(this.interval);
-                    }else if(distance < 0 && passTime > 0){
-                        this.calcTime(passTime);
-
-                    } else if( distance > 0 && passTime > 0 ){
-                        this.calcTime(distance);
+                    if(this.distance < 0 && this.passTime < 0){
+                        //
+                    }else if(this.distance < 0 && this.passTime > 0){
+                        this.calcTime(this.passTime);
+                    } else if(this.distance > 0 && this.passTime > 0 ){
+                        this.calcTime(this.distance);
                     }
                 },
                 calcTime: function(dist){
